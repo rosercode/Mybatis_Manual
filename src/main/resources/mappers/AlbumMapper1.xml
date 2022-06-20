@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cool.wangshuo.ml.mapper.AlbumMapper1">
+
+    <resultMap type="cool.wangshuo.ml.entity.AlbumEntity" id="AlbumDbAlbumMap">
+        <result property="albumId" column="albumId" jdbcType="INTEGER"/>
+        <result property="userId" column="userId" jdbcType="INTEGER"/>
+        <result property="albumName" column="albumName" jdbcType="VARCHAR"/>
+        <result property="albumStatue" column="albumStatue" jdbcType="INTEGER"/>
+        <result property="albumRight" column="albumRight" jdbcType="INTEGER"/>
+        <result property="albumTime" column="albumTime" jdbcType="TIMESTAMP"/>
+        <result property="albumFace" column="albumFace" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="selectAlbum1" resultType="cool.wangshuo.ml.entity.AlbumEntity">
+        select albumId, userId, albumName, albumStatue, albumRight, albumTime, albumFace
+        from album_db_album
+        where albumId = #{albumId}
+    </select>
+
+
+    <select id="selectAlbum2" resultType="java.util.HashMap">
+        select albumId, userId, albumName, albumStatue, albumRight, albumTime, albumFace
+        from album_db_album
+        where albumId = #{albumId}
+    </select>
+
+
+
+    <select id="selectAll1" resultMap="AlbumDbAlbumMap">
+        select
+            albumId, userId, albumName, albumStatue, albumRight, albumTime, albumFace
+        from album_db_album
+        ORDER BY `albumTime` DESC
+    </select>
+
+
+    <select id="selectAll2" resultType="com.alibaba.fastjson.JSONObject">
+        select
+            albumId, userId, albumName, albumStatue, albumRight, albumTime, albumFace
+        from album_db_album
+        ORDER BY `albumTime` DESC
+    </select>
+
+
+</mapper>
