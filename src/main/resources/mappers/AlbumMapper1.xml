@@ -21,6 +21,22 @@
         values (#{albumId}, #{userId}, #{albumName}, #{albumStatue}, #{albumRight}, now(), #{albumFace})
     </insert>
 
+    <!--批量插入数据-->
+    <insert id="insertBatch" keyProperty="albumId" useGeneratedKeys="true" parameterType="java.util.List">
+        insert into album_db_album(albumId, userId, albumName, albumStatue, albumRight, albumTime, albumFace)
+        VALUES
+        <foreach collection="entities" item="entity" separator=",">
+            (
+                 #{entity.albumId},
+                 #{entity.userId},
+                 #{entity.albumName},
+                 #{entity.albumStatue},
+                 #{entity.albumRight},
+                 now(),
+                 #{entity.albumFace}
+             )
+        </foreach>
+    </insert>
 
 
 
