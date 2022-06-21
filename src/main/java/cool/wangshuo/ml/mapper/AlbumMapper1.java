@@ -17,6 +17,8 @@ public interface AlbumMapper1 {
 
     int insertOne(AlbumEntity album);
 
+    int insertBatch(@Param("entities") List<AlbumEntity> entities);
+
     AlbumEntity selectAlbum1(String albumId);
 
     HashMap selectAlbum2(String albumId);
