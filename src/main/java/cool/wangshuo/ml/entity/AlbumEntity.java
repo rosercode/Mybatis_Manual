@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
 
 /**
+ * 数据库实体类
  * @author wangsh
  * @date 2022/6/10 15:12
  */
-
 
 @Data
 @NoArgsConstructor

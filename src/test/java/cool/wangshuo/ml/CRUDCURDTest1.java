@@ -40,7 +40,8 @@ import java.util.List;
  *     PRIMARY KEY (`albumId`)
  * ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='相册信息表';
  * </pre>
- * <hr>
+ * <hr><br>
+ *
  * 目录大纲如下：<br>
  * <ul>
  *     <li>插入数据
@@ -114,10 +115,32 @@ public class CRUDCURDTest1 implements CRUD {
     public void insertOne(){
 
         AlbumEntity mock = JMockData.mock(AlbumEntity.class, mockConfig);
+        System.out.println("随机生成的数据为：" + mock);
         int count =  session.insert("cool.wangshuo.ml.mapper.AlbumMapper1.insertOne", mock);
         System.out.println(count);
-        System.out.println(mock);
 
+    }
+
+    /**
+     * 批量插入数据
+     */
+    @Test
+    public void insertBatch(){
+
+        // 生成随机数据
+        List<AlbumEntity> albumEntities = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            AlbumEntity mock = JMockData.mock(AlbumEntity.class, mockConfig);
+            albumEntities.add(mock);
+            System.out.println(mock);
+        }
+
+        // 数据插入数据库
+        AlbumMapper1 mapper = session.getMapper(
+                AlbumMapper1.class
+        );
+        int count = mapper.insertBatch(albumEntities);
+        System.out.println("插入影响的行数为： " + count);
     }
 
     /**
