@@ -1,7 +1,10 @@
 package cool.wangshuo.ml;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.jsonzou.jmockdata.JMockData;
+import com.github.jsonzou.jmockdata.MockConfig;
 import cool.wangshuo.ml.entity.AlbumEntity;
+import cool.wangshuo.ml.mapper.AlbumMapper1;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -12,6 +15,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,7 +24,7 @@ import java.util.List;
  * MyBatis 支持两种 SQL 语句和 接口的映射方法 <br> <br>
  * 1. 通过 xml 的方式。 详细：{@link CRUDCURDTest1} <br>
  * 2. 通过 dao 层接口上的方法。 详细：{@link CRUDCRUDTest2} <br> <br>
- * <hr>
+ * <hr> <br>
  * 这里先来介绍第一种方式 通过 xml 的形式来完成  SQL语句和 接口的映射 <br> <br>
  *
  * 环境配置：创建数据库和其中的数据表
@@ -64,6 +68,7 @@ import java.util.List;
  *     </li>
  * </ul>
  *
+ * 单表的增删改查
  *
  * @author wangsh
  * @date 2022/6/10 16:10
@@ -77,6 +82,13 @@ public class CRUDCURDTest1 implements CRUD {
 
     private SqlSessionFactory sqlSessionFactory;
     private SqlSession session;
+
+
+    private MockConfig mockConfig = new MockConfig()
+            // 全局配置
+            .globalConfig()
+            // 排除所有包含list/set/map字符的字段。表达式不区分大小写。
+            .excludes("*serialVersionUID*");
 
     /**
      * 这里使用了 @Before 注解，是用作资源的申请, 被 @Before 注解修饰的的方法会在测试方法之前自动执行 <br>
@@ -92,6 +104,20 @@ public class CRUDCURDTest1 implements CRUD {
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         // 获取 session
         session = sqlSessionFactory.openSession();
+    }
+
+
+    /**
+     * 插入单个数据
+     */
+    @Test
+    public void insertOne(){
+
+        AlbumEntity mock = JMockData.mock(AlbumEntity.class, mockConfig);
+        int count =  session.insert("cool.wangshuo.ml.mapper.AlbumMapper1.insertOne", mock);
+        System.out.println(count);
+        System.out.println(mock);
+
     }
 
     /**
